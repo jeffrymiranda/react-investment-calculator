@@ -1,7 +1,6 @@
 import {formatter} from "../util/investment.js";
 
 export default function Result({result}) {
-    //console.log('Result: ', result);
     return (
         <table id="result">
             <thead>
