@@ -1,7 +1,7 @@
 import {formatter} from "../util/investment.js";
 
 export default function Result({result}) {
-    console.log('Result: ', result);
+    //console.log('Result: ', result);
     return (
         <table id="result">
             <thead>
@@ -14,13 +14,6 @@ export default function Result({result}) {
             </tr>
             </thead>
             <tbody>
-            {/*<tr>
-                <td>1</td>
-                <td>{formatter.format(17100)}</td>
-                <td>{formatter.format(900)}</td>
-                <td>{formatter.format(900)}</td>
-                <td>{formatter.format(16200)}</td>
-            </tr>*/}
             {
                 result.map((item, index) => (
                     <tr key={index}>

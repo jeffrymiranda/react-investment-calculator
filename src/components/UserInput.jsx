@@ -2,22 +2,38 @@ import {calculateInvestmentResults} from "../util/investment.js";
 import {useState} from "react";
 import Result from "./Result.jsx";
 
+const INITIAL_STATE = {
+    initialInvestment: 15000,
+    annualInvestment: 1200,
+    expectedReturn: 6,
+    duration: 10,
+}
+
 export default function UserInput() {
 
-    const [initialInvestment, setInitialInvestment] = useState(0);
+    const [inputData, setInputData] = useState(INITIAL_STATE);
     const [result, setResult] = useState([]);
 
     function handleChange(event) {
-        const intInv = event.target.value;
-        setInitialInvestment(intInv);
-        console.log('Initial Investment: ', intInv);
+        const { id: key, value } = event.target;
+
+        setInputData(prevInputData => {
+            const updatedData = {
+                ...prevInputData,
+                [key]: Number(value) || 0, // Ensure value is a valid number or default to 0
+            };
+            setResults(updatedData); // Update results with the new input data
+            return updatedData; // Return the updated data for state
+        });
+    }
+
+    function setResults(inputData) {
         setResult(calculateInvestmentResults({
-            initialInvestment: Number(intInv),
-            annualInvestment: 1200,
-            expectedReturn: 6,
-            duration: 10
+            initialInvestment: inputData.initialInvestment,
+            annualInvestment: inputData.annualInvestment,
+            expectedReturn: inputData.expectedReturn,
+            duration: inputData.duration
         }))
-        console.log('Annual Data: ', result);
     }
 
     return (
@@ -26,21 +42,24 @@ export default function UserInput() {
                 <div className="input-group">
                     <p>
                         <label>Initial Investment</label>
-                        <input type="number" required value={initialInvestment} onChange={handleChange}/>
+                        <input id="initialInvestment" type="number" required value={inputData.initialInvestment}
+                               onChange={handleChange}/>
                     </p>
                     <p>
                         <label>Annual Investment</label>
-                        <input type="number" required/>
+                        <input id="annualInvestment" type="number" required value={inputData.annualInvestment}
+                               onChange={handleChange}/>
                     </p>
                 </div>
                 <div className="input-group">
                     <p>
                         <label>Expected Return</label>
-                        <input type="number" required/>
+                        <input id="expectedReturn" type="number" required value={inputData.expectedReturn}
+                               onChange={handleChange}/>
                     </p>
                     <p>
                         <label>Duration</label>
-                        <input type="number" required/>
+                        <input id="duration" type="number" required value={inputData.duration} onChange={handleChange}/>
                     </p>
                 </div>
             </section>
